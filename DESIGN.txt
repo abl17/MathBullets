@@ -1,0 +1,106 @@
+GENRE: 
+	Top Down Scrolling Shooter 
+
+Its Consumer tempting, ear popping, 
+name (and the back story, or epic challenge), if you want:
+	Name: Math Bullets
+	
+	Target Audience: Anyone can play it. However, it is most useful for kids of ages 5-10 learning arithmetic.
+	
+	Part of the Challenge: Testing basic operations (e.g. 3+5, 14-9, 3*3, 14*3-41, etc.), all of which have answers
+	that are integers between 0 and 9. 
+	
+	Back Story: The back story describes a world in turmoil. The mindless Operoids (basically just sprites labeled 
+	with numerical operations) are trying to derstory the planet Derivativille. They are doing whatever they can
+	to invade the planet. Yet, hope remains in the form of the hero of our game: the Algebravian, and his magic 
+	MATH BULLETS! There are many types of Operoids: Additoids (represent addition), Minusoids (represent subtraction),
+	Dividoids (represents division), Multiploids (represents multiplication), and the infamous Gaussianoid (represents 
+	series of arithmetic operations that are challenging). All of these Operoids are evil, and the Algebravian must 
+	stop them to protect his planet. The Algebravian is a special person, in that he isn't physically affected by the 
+	effects of the Operoids. Hence, the goal is to simply destroy as many Operoids as possible before they reach the
+	end of the screen (indicating a successful invasion). The challenge is to eliminate a stream of enemies which 
+	approach the planet by pressing numbers 0-9 on your keyboard. The final challenge is to destroy the master Operoid: 
+	the Gaussianoid. The Gaussianoid is inherently different from the others. He does not move vertically, but rather 
+	horizontally. 
+
+Its Goal:
+	There are two levels (or game modes): One is a mode where you must destroy a continuous stream of
+	enemies with your bullets before they reach the other side of the screen (the Derivativille). Once you
+	defeat a certain number of operoids, they realize your mettle, and retreat. The 2nd level or mode
+	is a boss battle. Now this boss has health bars, and doesn't just lose in 1 hit. Furthermore, he isn't
+	trying to self-destruct into the Derivativille planet... Rather, he's just trying to destroy you! You've
+	destroyed his minions, and now he is ANGRY!! He'll shoot bullets at you, and if any hit you, you WILL die,
+	and the game will end. However, to overpower him, you'll need to shoot bullets at him until his health goes away.
+	Then the game is complete!
+	
+Its Basic Mechanics:
+	I'm basing my code a lot on the Game Tutorial. There will be two abstract classes: a GameWorld, and a Sprite 
+	class. Another key class will be the SpriteManager. The GameWorld will be the basis for creating most of the View, 
+	including updating things every frame like enemies, health bars, etc. The Sprite class will be responsible for being 
+	the basis of creating all the objects that interact with each other in the game universe. For example, each of my 
+	enemy objects (all the types of Operoids), the hero object (the Algebravian), and the interacting killers (weapon), 
+	will have some derivation from the abstract Sprite class. These will all be a part of the Model.
+	
+	Essentially, each sprite object will be derived from the Sprite abstract class and will have methods to determine 
+	whether it is dead (to be eliminated), its position/velocity, its collision status, etc. Then there will be a split 
+	in which three classes inherits the Sprite class. They will be: the Hero abstract class, the Operoid abstract class, 
+	and the Weapon abstract class. From this layer, the Algebravian will inherit from the Hero class, the
+	Additoids/Minusoids/... will inherited from the Operoid class, and the Bullet will inherit from the Weapon class.
+	The reason why I plan on doing this is to allow for future expansion.
+	
+	Different types of objects that I will be dealing with:
+	
+	Sprite
+	- Velocity (Vx and Vy)
+	- isEliminated (Yes or No)
+	- Position (X and Y)
+	- isCollided (Yes or No)	
+	-->Hero
+	   - Shoot Weapon
+	---->Algebravian
+		 - Keycode.DIGIT0 = Shoot Bullet type with the Answer: 0 (int)
+		 .
+		 .
+		 .
+		 - Keycode.Digit9 = Shoot Bullet type with the Answer: 9 (int)
+		 - Keycode.LeftArrow = Move Left
+		 - Keycode.RightArrow = Move Right
+		 - **Account a way to deal with interaction with wall, like pass from one side to the other side**
+	-->Operoid
+	   - myAnswer (indicates int condition for destruction)
+	   - hasReachedEnd (if reaches end, game over)
+	---->Additoid
+	     - Addition rules
+	---->Minusoid
+		 - Subtraction rules
+	---->Multiploid
+		 - Multiplication rules
+	---->Divisoid
+		 - Division rules
+	---->Gaussianoid
+		 - Multiple operation rules
+	-->Weapon
+	---->Bullet
+		 - BulletType (as an int) from {0, ... , 9}
+		 - Do nothing when reaches edge of screen.
+	
+	Essentially, the numbers 0-9 on the keyboard produce different types of bullets. If the correct type of bullet 
+	(answer) hits the correct answer to the Operoid, then both sprites will implode, indicating that the bullet has 
+	hit the enemy and it dies. If the answer is wrong, then the bullet will simply pass through with no effect. Each 
+	enemy for the first level has only 1 health, but there are many enemies. They can only vertically downwards starting
+	from the top. If any one of the operoids reaches the bottom edge of the screen, the screen goes to the END GAME 
+	screen. The hero, the Algebravian, can move in two directions: left and right. He himself is immune to contact with 
+	the operoids, but is still affected by bullets. The operoids will have a set velocity.
+	
+How the levels or modes differ:
+	The first level is just to prevent each enemy from reaching the end goal by pressing the correct number (0-9) and 
+	hitting the corresponding Operoid to make them explode. Enemies are randomly generated in waves, and drift vertically 
+	downwards with a set velocity. If any one of them successfully reaches the bottom, you lose. Your bullets have
+	corresponding numbers on them. Unlike the second level, there are multiple enemies, but all of them get destroyed 
+	in one hit as long as you shoot them with the correct number.
+	
+	The second level is sort of like a boss fight. The main character fights a boss with more than 1 health that 
+	shoots back, rather than aims to invade the planet. Fighting in this case is different in that you need to 
+	avoid the boss's bullets while firing your own. The boss also has a corresponding operation on its body, and when 
+	you hit it with the correct bullet, it loses health, but doesn't get eliminated until it loses all its health. In 
+	contrast, if you get hit even once by the bullets that it produces, then you get eliminated and you lose.
